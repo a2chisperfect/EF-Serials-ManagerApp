@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="19b7c4bd988f46efb2faa3a211f26e31" Name="Diagram1">
+        <EntityTypeShape EntityType="SerialsModel.Genre" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SerialsModel.Mark" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SerialsModel.Serial" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="SerialsModel.Series" Width="1.5" PointX="5.25" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SerialsModel.Status" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SerialsModel.TVChannel" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SerialsModel.User" Width="1.5" PointX="7.5" PointY="4.625" IsExpanded="true" />
+        <AssociationConnector Association="SerialsModel.FKMarksSerials" ManuallyRouted="false" />
+        <AssociationConnector Association="SerialsModel.FKMarksUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="SerialsModel.FK__Serials__id_Stat__1B0907CE" ManuallyRouted="false" />
+        <AssociationConnector Association="SerialsModel.FK__Serials__Id_TVCh__1A14E395" ManuallyRouted="false" />
+        <AssociationConnector Association="SerialsModel.FK__Series__Id_Seria__1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="SerialsModel.Likes" ManuallyRouted="false" />
+        <AssociationConnector Association="SerialsModel.SerialGenre" ManuallyRouted="false" />
+        <AssociationConnector Association="SerialsModel.ViewedSerials" ManuallyRouted="false" />
+        <AssociationConnector Association="SerialsModel.WatchingSerials" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

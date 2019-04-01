@@ -1,0 +1,688 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SerialsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Likes">
+          <Key>
+            <PropertyRef Name="Id_Series" />
+            <PropertyRef Name="Id_User" />
+          </Key>
+          <Property Name="Id_Series" Type="int" Nullable="false" />
+          <Property Name="Id_User" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Marks">
+          <Key>
+            <PropertyRef Name="Id_Serial" />
+            <PropertyRef Name="Id_User" />
+          </Key>
+          <Property Name="Id_Serial" Type="int" Nullable="false" />
+          <Property Name="Id_User" Type="int" Nullable="false" />
+          <Property Name="Mark" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SerialGenre">
+          <Key>
+            <PropertyRef Name="Id_Serial" />
+            <PropertyRef Name="Id_Category" />
+          </Key>
+          <Property Name="Id_Serial" Type="int" Nullable="false" />
+          <Property Name="Id_Category" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Serials">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_TVChannel" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+          <Property Name="id_Status" Type="int" />
+          <Property Name="Path" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Series">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Duration" Type="time" Precision="7" />
+          <Property Name="Id_Serial" Type="int" Nullable="false" />
+          <Property Name="Season" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TVChannels">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewedSerials">
+          <Key>
+            <PropertyRef Name="Id_Serial" />
+            <PropertyRef Name="Id_User" />
+          </Key>
+          <Property Name="Id_Serial" Type="int" Nullable="false" />
+          <Property Name="Id_User" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WatchingSerials">
+          <Key>
+            <PropertyRef Name="Id_Serial" />
+            <PropertyRef Name="Id_User" />
+          </Key>
+          <Property Name="Id_Serial" Type="int" Nullable="false" />
+          <Property Name="Id_User" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Serials__id_Stat__1B0907CE">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Serials" Type="Self.Serials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Serials">
+              <PropertyRef Name="id_Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Serials__Id_TVCh__1A14E395">
+          <End Role="TVChannels" Type="Self.TVChannels" Multiplicity="0..1" />
+          <End Role="Serials" Type="Self.Serials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVChannels">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Serials">
+              <PropertyRef Name="Id_TVChannel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Series__Id_Seria__1DE57479">
+          <End Role="Serials" Type="Self.Serials" Multiplicity="1" />
+          <End Role="Series" Type="Self.Series" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serials">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Series">
+              <PropertyRef Name="Id_Serial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKLikesSeries">
+          <End Role="Series" Type="Self.Series" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Series">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Likes">
+              <PropertyRef Name="Id_Series" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKLikesUsers">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Likes">
+              <PropertyRef Name="Id_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKMarksSerials">
+          <End Role="Serials" Type="Self.Serials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Marks" Type="Self.Marks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serials">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Marks">
+              <PropertyRef Name="Id_Serial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKMarksUsers">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Marks" Type="Self.Marks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Marks">
+              <PropertyRef Name="Id_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKSerialGenreCategory">
+          <End Role="Genre" Type="Self.Genre" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SerialGenre" Type="Self.SerialGenre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SerialGenre">
+              <PropertyRef Name="Id_Category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKSerialGenreSerial">
+          <End Role="Serials" Type="Self.Serials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SerialGenre" Type="Self.SerialGenre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serials">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SerialGenre">
+              <PropertyRef Name="Id_Serial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKViewedSerials">
+          <End Role="Serials" Type="Self.Serials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ViewedSerials" Type="Self.ViewedSerials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serials">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ViewedSerials">
+              <PropertyRef Name="Id_Serial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKViewedUsers">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ViewedSerials" Type="Self.ViewedSerials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ViewedSerials">
+              <PropertyRef Name="Id_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKWatchingSerials">
+          <End Role="Serials" Type="Self.Serials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WatchingSerials" Type="Self.WatchingSerials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serials">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WatchingSerials">
+              <PropertyRef Name="Id_Serial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKWatchingUsers">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WatchingSerials" Type="Self.WatchingSerials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WatchingSerials">
+              <PropertyRef Name="Id_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_check_content_role" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="SerialsModelStoreContainer">
+          <EntitySet Name="Genre" EntityType="Self.Genre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Likes" EntityType="Self.Likes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Marks" EntityType="Self.Marks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SerialGenre" EntityType="Self.SerialGenre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Serials" EntityType="Self.Serials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Series" EntityType="Self.Series" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TVChannels" EntityType="Self.TVChannels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewedSerials" EntityType="Self.ViewedSerials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WatchingSerials" EntityType="Self.WatchingSerials" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Serials__id_Stat__1B0907CE" Association="Self.FK__Serials__id_Stat__1B0907CE">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Serials" EntitySet="Serials" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Serials__Id_TVCh__1A14E395" Association="Self.FK__Serials__Id_TVCh__1A14E395">
+            <End Role="TVChannels" EntitySet="TVChannels" />
+            <End Role="Serials" EntitySet="Serials" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Series__Id_Seria__1DE57479" Association="Self.FK__Series__Id_Seria__1DE57479">
+            <End Role="Serials" EntitySet="Serials" />
+            <End Role="Series" EntitySet="Series" />
+          </AssociationSet>
+          <AssociationSet Name="FKLikesSeries" Association="Self.FKLikesSeries">
+            <End Role="Series" EntitySet="Series" />
+            <End Role="Likes" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FKLikesUsers" Association="Self.FKLikesUsers">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Likes" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FKMarksSerials" Association="Self.FKMarksSerials">
+            <End Role="Serials" EntitySet="Serials" />
+            <End Role="Marks" EntitySet="Marks" />
+          </AssociationSet>
+          <AssociationSet Name="FKMarksUsers" Association="Self.FKMarksUsers">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Marks" EntitySet="Marks" />
+          </AssociationSet>
+          <AssociationSet Name="FKSerialGenreCategory" Association="Self.FKSerialGenreCategory">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="SerialGenre" EntitySet="SerialGenre" />
+          </AssociationSet>
+          <AssociationSet Name="FKSerialGenreSerial" Association="Self.FKSerialGenreSerial">
+            <End Role="Serials" EntitySet="Serials" />
+            <End Role="SerialGenre" EntitySet="SerialGenre" />
+          </AssociationSet>
+          <AssociationSet Name="FKViewedSerials" Association="Self.FKViewedSerials">
+            <End Role="Serials" EntitySet="Serials" />
+            <End Role="ViewedSerials" EntitySet="ViewedSerials" />
+          </AssociationSet>
+          <AssociationSet Name="FKViewedUsers" Association="Self.FKViewedUsers">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ViewedSerials" EntitySet="ViewedSerials" />
+          </AssociationSet>
+          <AssociationSet Name="FKWatchingSerials" Association="Self.FKWatchingSerials">
+            <End Role="Serials" EntitySet="Serials" />
+            <End Role="WatchingSerials" EntitySet="WatchingSerials" />
+          </AssociationSet>
+          <AssociationSet Name="FKWatchingUsers" Association="Self.FKWatchingUsers">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="WatchingSerials" EntitySet="WatchingSerials" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SerialsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Serials" Relationship="Self.SerialGenre" FromRole="Genre" ToRole="Serials" />
+        </EntityType>
+        <EntityType Name="Mark">
+          <Key>
+            <PropertyRef Name="Id_Serial" />
+            <PropertyRef Name="Id_User" />
+          </Key>
+          <Property Name="Id_Serial" Type="Int32" Nullable="false" />
+          <Property Name="Id_User" Type="Int32" Nullable="false" />
+          <Property Name="Mark1" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Serial" Relationship="Self.FKMarksSerials" FromRole="Marks" ToRole="Serials" />
+          <NavigationProperty Name="User" Relationship="Self.FKMarksUsers" FromRole="Marks" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Serial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id_TVChannel" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="id_Status" Type="Int32" />
+          <Property Name="Path" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Marks" Relationship="Self.FKMarksSerials" FromRole="Serials" ToRole="Marks" />
+          <NavigationProperty Name="Status" Relationship="Self.FK__Serials__id_Stat__1B0907CE" FromRole="Serials" ToRole="Status" />
+          <NavigationProperty Name="TVChannel" Relationship="Self.FK__Serials__Id_TVCh__1A14E395" FromRole="Serials" ToRole="TVChannels" />
+          <NavigationProperty Name="Series" Relationship="Self.FK__Series__Id_Seria__1DE57479" FromRole="Serials" ToRole="Series" />
+          <NavigationProperty Name="Genres" Relationship="Self.SerialGenre" FromRole="Serials" ToRole="Genre" />
+          <NavigationProperty Name="Users" Relationship="Self.ViewedSerials" FromRole="Serials" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="Self.WatchingSerials" FromRole="Serials" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Series">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Duration" Type="Time" Precision="7" />
+          <Property Name="Id_Serial" Type="Int32" Nullable="false" />
+          <Property Name="Season" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Serial" Relationship="Self.FK__Series__Id_Seria__1DE57479" FromRole="Series" ToRole="Serials" />
+          <NavigationProperty Name="Users" Relationship="Self.Likes" FromRole="Series" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Serials" Relationship="Self.FK__Serials__id_Stat__1B0907CE" FromRole="Status" ToRole="Serials" />
+        </EntityType>
+        <EntityType Name="TVChannel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Serials" Relationship="Self.FK__Serials__Id_TVCh__1A14E395" FromRole="TVChannels" ToRole="Serials" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Marks" Relationship="Self.FKMarksUsers" FromRole="Users" ToRole="Marks" />
+          <NavigationProperty Name="Series" Relationship="Self.Likes" FromRole="Users" ToRole="Series" />
+          <NavigationProperty Name="Serials" Relationship="Self.ViewedSerials" FromRole="Users" ToRole="Serials" />
+          <NavigationProperty Name="Serials1" Relationship="Self.WatchingSerials" FromRole="Users" ToRole="Serials" />
+        </EntityType>
+        <Association Name="FKMarksSerials">
+          <End Role="Serials" Type="Self.Serial" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Marks" Type="Self.Mark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serials">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Marks">
+              <PropertyRef Name="Id_Serial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKMarksUsers">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Marks" Type="Self.Mark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Marks">
+              <PropertyRef Name="Id_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Serials__id_Stat__1B0907CE">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Serials" Type="Self.Serial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Serials">
+              <PropertyRef Name="id_Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Serials__Id_TVCh__1A14E395">
+          <End Role="TVChannels" Type="Self.TVChannel" Multiplicity="0..1" />
+          <End Role="Serials" Type="Self.Serial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVChannels">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Serials">
+              <PropertyRef Name="Id_TVChannel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Series__Id_Seria__1DE57479">
+          <End Role="Serials" Type="Self.Serial" Multiplicity="1" />
+          <End Role="Series" Type="Self.Series" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serials">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Series">
+              <PropertyRef Name="Id_Serial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Likes">
+          <End Role="Series" Type="Self.Series" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <Association Name="SerialGenre">
+          <End Role="Genre" Type="Self.Genre" Multiplicity="*" />
+          <End Role="Serials" Type="Self.Serial" Multiplicity="*" />
+        </Association>
+        <Association Name="ViewedSerials">
+          <End Role="Serials" Type="Self.Serial" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <Association Name="WatchingSerials">
+          <End Role="Serials" Type="Self.Serial" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SerialsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Genres" EntityType="Self.Genre" />
+          <EntitySet Name="Marks" EntityType="Self.Mark" />
+          <EntitySet Name="Serials" EntityType="Self.Serial" />
+          <EntitySet Name="Series" EntityType="Self.Series" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="TVChannels" EntityType="Self.TVChannel" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FKMarksSerials" Association="Self.FKMarksSerials">
+            <End Role="Serials" EntitySet="Serials" />
+            <End Role="Marks" EntitySet="Marks" />
+          </AssociationSet>
+          <AssociationSet Name="FKMarksUsers" Association="Self.FKMarksUsers">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Marks" EntitySet="Marks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Serials__id_Stat__1B0907CE" Association="Self.FK__Serials__id_Stat__1B0907CE">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Serials" EntitySet="Serials" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Serials__Id_TVCh__1A14E395" Association="Self.FK__Serials__Id_TVCh__1A14E395">
+            <End Role="TVChannels" EntitySet="TVChannels" />
+            <End Role="Serials" EntitySet="Serials" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Series__Id_Seria__1DE57479" Association="Self.FK__Series__Id_Seria__1DE57479">
+            <End Role="Serials" EntitySet="Serials" />
+            <End Role="Series" EntitySet="Series" />
+          </AssociationSet>
+          <AssociationSet Name="Likes" Association="Self.Likes">
+            <End Role="Series" EntitySet="Series" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="SerialGenre" Association="Self.SerialGenre">
+            <End Role="Genre" EntitySet="Genres" />
+            <End Role="Serials" EntitySet="Serials" />
+          </AssociationSet>
+          <AssociationSet Name="ViewedSerials" Association="Self.ViewedSerials">
+            <End Role="Serials" EntitySet="Serials" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="WatchingSerials" Association="Self.WatchingSerials">
+            <End Role="Serials" EntitySet="Serials" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <FunctionImport Name="sp_check_content_role" ReturnType="Collection(Boolean)">
+            <Parameter Name="username" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SerialsModelStoreContainer" CdmEntityContainer="SerialsEntities">
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="SerialsModel.Genre">
+              <MappingFragment StoreEntitySet="Genre">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Marks">
+            <EntityTypeMapping TypeName="SerialsModel.Mark">
+              <MappingFragment StoreEntitySet="Marks">
+                <ScalarProperty Name="Id_Serial" ColumnName="Id_Serial" />
+                <ScalarProperty Name="Id_User" ColumnName="Id_User" />
+                <ScalarProperty Name="Mark1" ColumnName="Mark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Serials">
+            <EntityTypeMapping TypeName="SerialsModel.Serial">
+              <MappingFragment StoreEntitySet="Serials">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id_TVChannel" ColumnName="Id_TVChannel" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="id_Status" ColumnName="id_Status" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Series">
+            <EntityTypeMapping TypeName="SerialsModel.Series">
+              <MappingFragment StoreEntitySet="Series">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Id_Serial" ColumnName="Id_Serial" />
+                <ScalarProperty Name="Season" ColumnName="Season" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="SerialsModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Status1" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TVChannels">
+            <EntityTypeMapping TypeName="SerialsModel.TVChannel">
+              <MappingFragment StoreEntitySet="TVChannels">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SerialsModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Likes" TypeName="SerialsModel.Likes" StoreEntitySet="Likes">
+            <EndProperty Name="Series">
+              <ScalarProperty Name="Id" ColumnName="Id_Series" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="Id" ColumnName="Id_User" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="SerialGenre" TypeName="SerialsModel.SerialGenre" StoreEntitySet="SerialGenre">
+            <EndProperty Name="Genre">
+              <ScalarProperty Name="Id" ColumnName="Id_Category" />
+            </EndProperty>
+            <EndProperty Name="Serials">
+              <ScalarProperty Name="Id" ColumnName="Id_Serial" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ViewedSerials" TypeName="SerialsModel.ViewedSerials" StoreEntitySet="ViewedSerials">
+            <EndProperty Name="Serials">
+              <ScalarProperty Name="Id" ColumnName="Id_Serial" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="Id" ColumnName="Id_User" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="WatchingSerials" TypeName="SerialsModel.WatchingSerials" StoreEntitySet="WatchingSerials">
+            <EndProperty Name="Serials">
+              <ScalarProperty Name="Id" ColumnName="Id_Serial" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="Id" ColumnName="Id_User" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="sp_check_content_role" FunctionName="SerialsModel.Store.sp_check_content_role" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
